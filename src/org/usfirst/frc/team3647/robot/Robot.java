@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic() 
 	{
 		controller.updateMainController();
-		moveForwardBackward(enc.getLeftEncoder(), enc.getRightEncoder());
+		moveForwardBackward(enc.getRightEncoder(), enc.getLeftEncoder());
 		Motors.leftTalon.set(leftSpeed);
 		Motors.rightTalon.set(rightSpeed);
 		System.out.println("Right Encoder: " + enc.getRightEncoder());
@@ -99,20 +99,20 @@ public class Robot extends IterativeRobot
 			if(difference < 5 || average < 0.3) //if the difference in encoder values is less than 5, the speed is set the same for both motors
 			{
 				rightSpeed = -joysticky; // right speed is set to negative joystick value
-				leftSpeed = joysticky; //left speed is set to postitive joystick value
+				leftSpeed = joysticky; //left speed is set to positive joystick value
 			}
 			else if(difference > 5) // difference in encoder values is greater than 5
 			{
 				if (rightenc < leftenc) //check if the right encoder is less than the left encoder
 				{
 					//if so
-					rightSpeed = -joysticky; // rightspeed stays the same
-					leftSpeed = joysticky - 0.2; //left speed decreased
+					rightSpeed = -joysticky; // right speed stays the same
+					leftSpeed = joysticky - 0.3; //left speed decreased
 				}
 				else
 				{
 					//if the right encoder is GREATER than the left encoder
-					rightSpeed = -joysticky + 0.2; // right speed is decreased
+					rightSpeed = -joysticky + 0.3; // right speed is decreased
 					leftSpeed = joysticky; //left speed stays the same
 				}
 			}
@@ -121,6 +121,7 @@ public class Robot extends IterativeRobot
 		{
 			rightSpeed = 0;
 			leftSpeed = 0;
+			enc.resetEncoders();
 		}
 	}
 
