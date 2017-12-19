@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic() 
 	{
 		controller.updateMainController();
-		moveForwardBackward(enc.getRightEncoder(), enc.getLeftEncoder());
+		move(enc.getRightEncoder(), enc.getLeftEncoder());
 		Motors.leftTalon.set(leftSpeed);
 		Motors.rightTalon.set(rightSpeed);
 		System.out.println("Right Encoder: " + enc.getRightEncoder());
@@ -107,11 +107,11 @@ public class Robot extends IterativeRobot
 			{
 				if(rightenc > leftenc)
 				{
-					rightSpeed += 0.1;
+					rightSpeed  = 0;
 				}
 				else
 				{
-					rightSpeed -= 0.05;
+					leftSpeed = 0;
 				}
 			}
 			
