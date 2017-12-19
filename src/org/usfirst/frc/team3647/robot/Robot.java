@@ -88,6 +88,42 @@ public class Robot extends IterativeRobot
 		System.out.println();
 	}
 	
+	
+	public void move(double rightenc, double leftenc)
+	{
+		double joysticky = Joysticks.leftJoySticky; //sets joystick Y value from -1 to 1 to a var called double joysticky
+		
+		double difference = Math.abs(rightenc - leftenc);
+		
+		if(joysticky != 0)
+		{
+			double avg = (leftSpeed + rightSpeed) / 2;
+			if (difference < 10 || avg < 0.3) 
+			{
+				rightSpeed = -joysticky;
+				leftSpeed = joysticky;
+			}
+			else
+			{
+				if(rightenc > leftenc)
+				{
+					rightSpeed += 0.1;
+				}
+				else
+				{
+					rightSpeed -= 0.05;
+				}
+			}
+			
+		}
+		else
+		{
+			leftSpeed = 0;
+			rightSpeed = 0;
+			enc.resetEncoders();
+		}
+	}
+	
 	public void moveForwardBackward(double rightenc, double leftenc)
 	{
 		double joysticky = Joysticks.leftJoySticky; //sets joystick Y value from -1 to 1 to a var called double joysticky
