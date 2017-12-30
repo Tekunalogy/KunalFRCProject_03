@@ -81,6 +81,7 @@ public class Robot extends IterativeRobot
 	{
 		controller.updateMainController();
 		move(enc.getRightEncoder(), enc.getLeftEncoder());
+		//moveLR();
 		Motors.leftTalon.set(leftSpeed);
 		Motors.rightTalon.set(rightSpeed);
 		System.out.println("Right Encoder: " + enc.getRightEncoder());
@@ -88,38 +89,48 @@ public class Robot extends IterativeRobot
 		System.out.println();
 	}
 	
+	public void moveLR()
+	{
+		double joystickx = Joysticks.rightJoyStickx;
+		
+		leftSpeed = joystickx;
+		rightSpeed = joystickx;
+	}
 	
 	public void move(double rightenc, double leftenc)
 	{
 		double joysticky = Joysticks.leftJoySticky; //sets joystick Y value from -1 to 1 to a var called double joysticky
+		double joystickx = Joysticks.rightJoyStickx;
 		
 		double difference = Math.abs(rightenc - leftenc);
 		
 		if(joysticky != 0)
 		{
-			double avg = (leftSpeed + rightSpeed) / 2;
-			if (difference < 10 || avg < 0.3) 
+			if (difference < 10) 
 			{
-				rightSpeed = -joysticky;
-				leftSpeed = joysticky;
+//				rightSpeed = rightSpeed;
+//				leftSpeed = leftSpeed;
+				enc.resetEncoders();
 			}
 			else
 			{
 				if(rightenc > leftenc)
 				{
-					rightSpeed  = 0;
+					rightSpeed  = -joysticky + 0.4;
+					leftSpeed = joysticky + 0.4;
 				}
-				else
+				else if(rightenc < leftenc)
 				{
-					leftSpeed = 0;
+					rightSpeed = -joysticky - 0.4;
+					leftSpeed = joysticky - 0.4;
 				}
 			}
 			
 		}
 		else
 		{
-			leftSpeed = 0;
-			rightSpeed = 0;
+			leftSpeed = joystickx;
+			rightSpeed = joystickx;
 			enc.resetEncoders();
 		}
 	}
